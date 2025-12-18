@@ -29,16 +29,20 @@ import React, { useState } from 'react';
 
 import { CatInstance } from '../domain/stores/Cat';
 import CatStore from '../domain/stores/CatStore';
+import { getAverageCatAge } from '../service/PetUseCases';
 
 function App(): React.JSX.Element {
   //const [cats] = useState(CatStore.cats);
   const [newItemText, setNewItemText] = useState('');
+  const [averageAge, setAverageAge] = useState(getAverageCatAge());
 
   const addItem = () => {
     CatStore.addCat(newItemText);
+    setAverageAge(getAverageCatAge());
   };
   const deleteItem = (id : string) => {
-    CatStore.deleteCat(id)
+    CatStore.deleteCat(id);
+    setAverageAge(getAverageCatAge());
   };
 
   const renderCatItem = (cat: ListRenderItemInfo<CatInstance>) => (
@@ -53,6 +57,7 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView style={Colors.lighter}>
  <View style={styles.container}>
+ <Text style={styles.averageAgeText}>Average Cat Age: {averageAge.toFixed(2)}</Text>
  <TextInput
         style={styles.input}
         placeholder="Enter name"
@@ -103,6 +108,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     marginBottom: 4,
+  },
+  averageAgeText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#333',
+    textAlign: 'center',
   },
 });
 

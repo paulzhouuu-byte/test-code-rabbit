@@ -18,3 +18,9 @@ export const findDogsCatsWithSameName = (): [CatInstance[], DogInstance[]] => {
 
     return [dogs, finalCats];
 };
+
+export const getAverageCatAge = (): number => {
+    if (CatStore.cats.length === 0) return 0;
+    const totalAge = CatStore.cats.reduce((sum, cat) => sum + cat.age, 0);
+    return totalAge / CatStore.cats.length;
+};
